@@ -2,7 +2,7 @@ package com.couponmania2.coupon_project.controller;
 
 import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.auth.JwtUtils;
-import com.couponmania2.coupon_project.auth.UserDetails;
+import com.couponmania2.coupon_project.auth.UserModel;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Customer;
 import com.couponmania2.coupon_project.exceptions.*;
@@ -23,18 +23,18 @@ public class AdminController extends ClientController {
     private final JwtUtils jwtUtils;
 
 
-    @Override
-    @PostMapping("login")
-    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
-            throws AppUnauthorizedRequestException {
-        UserDetails user = UserDetails.builder()
-                .userName(userName)
-                .userPass(userPass)
-                .role(clientType.getName())
-                .id(adminService.checkCredentials(userName, userPass, clientType))
-                .build();
-        return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
-    }
+//    @Override
+//    @PostMapping("loginSWAGGER")
+//    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
+//            throws AppUnauthorizedRequestException {
+//        UserDetails user = UserDetails.builder()
+//                .userName(userName)
+//                .userPass(userPass)
+//                .role(clientType.getName())
+//                .id(adminService.checkCredentials(userName, userPass, clientType))
+//                .build();
+//        return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
+//    }
 
     @PostMapping("/addCompany")
     @ResponseStatus(HttpStatus.CREATED)
@@ -128,10 +128,10 @@ public class AdminController extends ClientController {
     }
 
     private void validate(String token) throws AppUnauthorizedRequestException {
-        UserDetails user = jwtUtils.validateToken(token);
-        if (!(user.getRole().equals(ClientType.ADMIN.getName()))) {
-            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
-        }
+//        UserModel user = jwtUtils.validateToken(token);
+//        if (!(user.get().equals(ClientType.ADMIN.getName()))) {
+//            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS.getMessage());
+//        }
     }
 
 

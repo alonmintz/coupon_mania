@@ -2,7 +2,7 @@ package com.couponmania2.coupon_project.controller;
 
 import com.couponmania2.coupon_project.auth.ClientType;
 import com.couponmania2.coupon_project.auth.JwtUtils;
-import com.couponmania2.coupon_project.auth.UserDetails;
+import com.couponmania2.coupon_project.auth.UserModel;
 import com.couponmania2.coupon_project.beans.Category;
 import com.couponmania2.coupon_project.beans.Company;
 import com.couponmania2.coupon_project.beans.Coupon;
@@ -24,19 +24,19 @@ public class CompanyController extends ClientController {
     private final JwtUtils jwtUtils;
 
     //TODO: try to put in abstract class (remove duplicate code)
-    @Override
-    @PostMapping("login")
-    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
-            throws AppUnauthorizedRequestException {
-        UserDetails user = UserDetails.builder()
-                .userName(userName)
-                .userPass(userPass)
-                .role(clientType.getName())
-                .id(companyService.checkCredentials(userName, userPass, clientType).getId())
-                .build();
-
-        return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
-    }
+//    @Override
+//    @PostMapping("login")
+//    public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String userPass, @RequestParam ClientType clientType)
+//            throws AppUnauthorizedRequestException {
+//        UserDetails user = UserDetails.builder()
+//                .userName(userName)
+//                .userPass(userPass)
+//                .role(clientType.getName())
+//                .id(companyService.checkCredentials(userName, userPass, clientType).getId())
+//                .build();
+//
+//        return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
+//    }
 
     @PostMapping("/addCoupon")
     @ResponseStatus(HttpStatus.CREATED)
@@ -115,11 +115,12 @@ public class CompanyController extends ClientController {
 
     //TODO: put in abstract father
     private long validate(String token) throws AppUnauthorizedRequestException {
-        UserDetails user = jwtUtils.validateToken(token);
-        if (!(user.getRole().equals(ClientType.COMPANY.getName()))) {
-            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
-        }
-        return user.getId();
+//        UserModel user = jwtUtils.validateToken(token);
+//        if (!(user.getRole().equals(ClientType.COMPANY.getName()))) {
+//            throw new AppUnauthorizedRequestException(AppUnauthorizedRequestMessage.BAD_CREDENTIALS);
+//        }
+//        return user.getId();
+        return 1;
     }
 
     private Company validateForObject(String token) throws AppUnauthorizedRequestException {

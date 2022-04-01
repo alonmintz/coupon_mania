@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
-@Order(4)
+//@Component
+//@Order(4)
 @RequiredArgsConstructor
 //todo: add get customer details method
 public class CustomerRestTest implements CommandLineRunner {

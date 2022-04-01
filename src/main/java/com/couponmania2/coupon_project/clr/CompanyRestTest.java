@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Component
-@Order(3)
+//@Component
+//@Order(3)
 @RequiredArgsConstructor
 public class CompanyRestTest implements CommandLineRunner {
     private final RestTemplate restTemplate;
