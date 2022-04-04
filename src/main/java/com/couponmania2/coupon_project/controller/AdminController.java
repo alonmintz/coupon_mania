@@ -117,7 +117,7 @@ public class AdminController extends ClientController {
 
     @GetMapping("/getAllCustomers")
     public ResponseEntity<?> getAllCustomer(@RequestHeader(name = "Authorization") String token) throws AppUnauthorizedRequestException {
-        validate(token);
+//        validate(token);
         return new ResponseEntity<>(adminService.getAllCustomers(), HttpStatus.OK);
     }
 

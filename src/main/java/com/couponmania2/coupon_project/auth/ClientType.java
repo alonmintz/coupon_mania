@@ -1,6 +1,7 @@
 package com.couponmania2.coupon_project.auth;
 
 public enum ClientType {
+    UNDEFINED("undefined"),
     ADMIN("admin"),
     COMPANY("company"),
     CUSTOMER("customer");

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,43 +33,75 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        //TODO: make authority enum
 //        http.authorizeRequests().antMatchers("/admin/**").hasAnyAuthority("admin");
-        http.authorizeRequests().anyRequest().authenticated();
-
-        http
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()));
-//                .addFilterBefore(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-//                .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class);
-
-//        http.authorizeRequests()
-//                .antMatchers("/", "index", "/css", "/js", "media", "img", "/login/**")
-//                .permitAll()
-////                .antMatchers("/v2/api-docs",
-////                        "/configuration/ui",
-////                        "/swagger-resources/**",
-////                        "/configuration/security",
-////                        "/swagger-ui.html",
-////                        "/webjars/**").permitAll()
-//////                .antMatchers("/token/getToken").permitAll()
-////                .antMatchers("/login/**").permitAll()
-////                .antMatchers("/admin/**").hasRole("admin")
-////                .antMatchers("/company/**").hasRole("company")
-////                .antMatchers("/customer/**").hasRole("customer")
-//                .anyRequest().authenticated();
-//        http.authorizeRequests().antMatchers("/login").permitAll();
-
-
+//        http.authorizeRequests().antMatchers("/customer/**").hasAnyAuthority("customer ");
+//        http.authorizeRequests().antMatchers("/company/**").hasAnyAuthority("company");
 //
-        http
-                .formLogin().defaultSuccessUrl("http://localhost:8080/swagger-ui.html#/");
+//        http
+//                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManagerBean()));
+//        http
+//                .addFilterBefore(new JwtTokenVerifier(), UsernamePasswordAuthenticationFilter.class);
+//
+//
+//    }
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests()
+            .antMatchers("/","index","/css","/js","media","img","/login/**")
+            .permitAll()
+            .antMatchers("/v2/api-docs",
+                    "/configuration/ui",
+                    "/swagger-resources/**",
+                    "/configuration/security",
+                    "/swagger-ui.html#",
+                    "/webjars/**").permitAll()
+//            .antMatchers("/token/getToken").permitAll()
+            .antMatchers("/login/**").permitAll()
+            .antMatchers("/admin/**").hasAnyAuthority("admin")
+            .antMatchers("/company/**").hasAnyAuthority("company")
+            .antMatchers("/customer/**").hasAnyAuthority("customer")
+            .anyRequest().authenticated()
+            .and()
+            .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManagerBean()))
+            .addFilterBefore(new JwtTokenVerifier(), UsernamePasswordAuthenticationFilter.class)
+            .formLogin();
+//            .loginPage("/login")
+//            .loginProcessingUrl("/login/processLogin");
+//            .defaultSuccessUrl("http://localhost:8080/swagger-ui.html");
+//            .usernameParameter("email")
+//            .passwordParameter("password");
+//                .and()
+//                .logout()
+//                .logoutSuccessUrl("http://localhost:8080/token/lognout");
+    //.logoutSuccessUrl("http://localhost:8080/login");
 
+}
 
-//        System.out.println("HERHEERHERHERH");
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/v2/api-docs",
+//                        "/configuration/ui",
+//                        "/swagger-resources/**",
+//                        "/configuration/security",
+//                        "/swagger-ui.html",
+//                        "/",
+//                        "/webjars/**");
+////                .antMatchers("/token/**");
+//    }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
 //    @Bean

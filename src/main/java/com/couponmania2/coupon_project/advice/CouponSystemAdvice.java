@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.naming.AuthenticationException;
+
 @ControllerAdvice
 public class CouponSystemAdvice {
     @ExceptionHandler(value = {AppTargetNotFoundException.class})
@@ -30,4 +32,10 @@ public class CouponSystemAdvice {
     ResponseEntity<ErrorDetails>  invalidInputException(Exception err){
         return new ResponseEntity<>(new ErrorDetails("Invalid input." , err.getMessage()), HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(value = {AuthenticationException.class})
+    ResponseEntity<ErrorDetails>  noAuthenticationException(Exception err){
+        return new ResponseEntity<>(new ErrorDetails("No authentication." , err.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
 }
